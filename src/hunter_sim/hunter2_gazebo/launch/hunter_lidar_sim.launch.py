@@ -115,7 +115,6 @@ def generate_launch_description():
   start_robot_state_publisher_cmd = Node(
     package='robot_state_publisher',
     executable='robot_state_publisher',
-    # parameters=[{'robot_description': Command(['xacro ', urdf_model]),'use_sim_time': use_sim_time}]
     parameters=[{'robot_description': launch_ros.descriptions.ParameterValue( launch.substitutions.Command([
       'xacro ',os.path.join(pkg_share,urdf_file_path)]), value_type=str)  }]
     )
@@ -128,17 +127,6 @@ def generate_launch_description():
     condition=UnlessCondition(gui),
     parameters=[{'use_sim_time': use_sim_time}])
     
-  start_joint_state_publisher_gui_node = Node(
-    condition=IfCondition(gui),
-    package='joint_state_publisher_gui',
-    executable='joint_state_publisher_gui',
-    name='joint_state_publisher_gui',
-    parameters=[{'use_sim_time': use_sim_time}])
-  # start_dummy_sensors=Node(
-  #   package='dummy_sensors', 
-  #   node_executable='dummy_joint_states', 
-  #   output='screen')
-
   # Launch RViz
   start_rviz_cmd = Node(
     package='rviz2',
@@ -160,7 +148,7 @@ def generate_launch_description():
     condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless])))
  
   # Launch the robot
-  spawn_entity_cmd = Node(
+  spawn_entity_cmd_1 = Node(
     package='gazebo_ros', 
     executable='spawn_entity.py',
     arguments=['-entity', robot_name_in_model, 
@@ -170,6 +158,8 @@ def generate_launch_description():
                     '-z', spawn_z_val,
                     '-Y', spawn_yaw_val],
                     output='screen')
+                    
+  
  
   controller = Node(
         package="controller_manager",
@@ -202,9 +192,8 @@ def generate_launch_description():
   # Add any actions
   ld.add_action(start_gazebo_server_cmd)
   ld.add_action(start_gazebo_client_cmd)
-  ld.add_action(spawn_entity_cmd)
+  ld.add_action(spawn_entity_cmd_1)
   ld.add_action(start_robot_state_publisher_cmd)
-  ld.add_action(start_joint_state_publisher_gui_node)
   ld.add_action(start_joint_state_publisher_cmd)
 
   
