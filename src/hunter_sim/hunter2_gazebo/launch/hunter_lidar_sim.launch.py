@@ -3,7 +3,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration, PythonExpression
+from launch.substitutions import Command, LaunchConfiguration, PythonExpression, TextSubstitution, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 import launch_ros.descriptions
@@ -29,7 +29,9 @@ def generate_launch_description():
   spawn_y_val = '0.0'
   spawn_z_val = '0.0'
   spawn_yaw_val = '0.00'
- 
+
+  spawn_x_val_2 = str(float(spawn_x_val) - 5.0)
+
   ############ You do not need to change anything below this line #############
  
   # Set the path to different files and folders.  
@@ -46,7 +48,8 @@ def generate_launch_description():
   use_sim_time = LaunchConfiguration('use_sim_time', default='true')
   gui = LaunchConfiguration('gui')
   headless = LaunchConfiguration('headless')
-  namespace = LaunchConfiguration('namespace')
+  namespace_1 = LaunchConfiguration('namespace_1')
+  namespace_2 = LaunchConfiguration('namespace_2')
   rviz_config_file = LaunchConfiguration('rviz_config_file')
   urdf_model = LaunchConfiguration('urdf_model')
   use_namespace = LaunchConfiguration('use_namespace')
@@ -67,8 +70,8 @@ def generate_launch_description():
     description='Flag to enable joint_state_publisher_gui')
  
   declare_namespace_cmd = DeclareLaunchArgument(
-    name='namespace',
-    default_value='',
+    name='namespace_1',
+    default_value='robot1',
     description='Top-level namespace')
  
   declare_use_namespace_cmd = DeclareLaunchArgument(
@@ -110,13 +113,19 @@ def generate_launch_description():
     name='world',
     default_value=world_path,
     description='Full path to the world model file to load')
+
+  declare_namespace_2_cmd = DeclareLaunchArgument(
+    name='namespace_2',
+    default_value='robot2',
+    description='Namespace for the second robot')
  
   # Subscribe to the joint states of the robot, and publish the 3D pose of each link.    
   start_robot_state_publisher_cmd = Node(
     package='robot_state_publisher',
     executable='robot_state_publisher',
     parameters=[{'robot_description': launch_ros.descriptions.ParameterValue( launch.substitutions.Command([
-      'xacro ',os.path.join(pkg_share,urdf_file_path)]), value_type=str)  }]
+      'xacro ',os.path.join(pkg_share,urdf_file_path)]), value_type=str)  }],
+    namespace=LaunchConfiguration('namespace_1')
     )
  
   # Publish the joint states of the robot
@@ -125,7 +134,8 @@ def generate_launch_description():
     executable='joint_state_publisher',
     name='joint_state_publisher',
     condition=UnlessCondition(gui),
-    parameters=[{'use_sim_time': use_sim_time}])
+    parameters=[{'use_sim_time': use_sim_time}],
+    namespace=LaunchConfiguration('namespace_1'))
     
   # Launch RViz
   start_rviz_cmd = Node(
@@ -149,23 +159,64 @@ def generate_launch_description():
  
   # Launch the robot
   spawn_entity_cmd_1 = Node(
-    package='gazebo_ros', 
+    package='gazebo_ros',
     executable='spawn_entity.py',
-    arguments=['-entity', robot_name_in_model, 
-                '-topic', 'robot_description',
-                    '-x', spawn_x_val,
-                    '-y', spawn_y_val,
-                    '-z', spawn_z_val,
-                    '-Y', spawn_yaw_val],
-                    output='screen')
-                    
-  
- 
-  controller = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["gazebo_ros_ackermann_drive"],
-    )
+    arguments=[
+        '-entity', 'robot1',
+        '-robot_namespace', LaunchConfiguration('namespace_1'),
+        '-topic', PathJoinSubstitution([
+            '/', LaunchConfiguration('namespace_1'), 'robot_description'
+        ]),
+        '-x', spawn_x_val,
+        '-y', spawn_y_val,
+        '-z', spawn_z_val,
+        '-Y', spawn_yaw_val
+    ],
+    namespace=LaunchConfiguration('namespace_1'),
+    output='screen'
+)
+
+  spawn_entity_cmd_2 = Node(
+    package='gazebo_ros',
+    executable='spawn_entity.py',
+    arguments=[
+        '-entity', 'robot2',
+        '-robot_namespace', LaunchConfiguration('namespace_2'),
+        '-topic', PathJoinSubstitution([
+            '/', LaunchConfiguration('namespace_2'), 'robot_description'
+        ]),
+        '-x', spawn_x_val_2,
+        '-y', spawn_y_val,
+        '-z', spawn_z_val,
+        '-Y', spawn_yaw_val
+    ],
+    namespace=LaunchConfiguration('namespace_2'),
+    output='screen'
+  )
+
+  start_robot_state_publisher_cmd_2 = Node(
+    package='robot_state_publisher',
+    executable='robot_state_publisher',
+    parameters=[{
+        'robot_description': launch_ros.descriptions.ParameterValue(
+            launch.substitutions.Command([
+                'xacro ', os.path.join(pkg_share, urdf_file_path)
+            ]),
+            value_type=str
+        )
+    }],
+    namespace=LaunchConfiguration('namespace_2')
+  )
+
+
+  # Publish the joint states of the robot
+  start_joint_state_publisher_cmd_2 = Node(
+    package='joint_state_publisher',
+    executable='joint_state_publisher',
+    name='joint_state_publisher',
+    condition=UnlessCondition(gui),
+    parameters=[{'use_sim_time': use_sim_time}],
+    namespace=LaunchConfiguration('namespace_2'))
 
 
   # Create the launch description and populate
@@ -183,6 +234,7 @@ def generate_launch_description():
   ld.add_action(declare_use_rviz_cmd) 
   ld.add_action(declare_use_simulator_cmd)
   ld.add_action(declare_world_cmd)
+  ld.add_action(declare_namespace_2_cmd)
   
  
   # ld.add_action(controller)
@@ -193,8 +245,11 @@ def generate_launch_description():
   ld.add_action(start_gazebo_server_cmd)
   ld.add_action(start_gazebo_client_cmd)
   ld.add_action(spawn_entity_cmd_1)
+  ld.add_action(spawn_entity_cmd_2)
   ld.add_action(start_robot_state_publisher_cmd)
+  ld.add_action(start_robot_state_publisher_cmd_2)
   ld.add_action(start_joint_state_publisher_cmd)
+  ld.add_action(start_joint_state_publisher_cmd_2)
 
   
   # ld.add_action(start_dummy_sensors)
