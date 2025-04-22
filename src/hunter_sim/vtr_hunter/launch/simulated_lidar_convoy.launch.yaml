@@ -13,6 +13,7 @@ windows:
       - source ${VTRROOT}/hunter_sim/install/setup.bash
     panes:
       - ros2 run vtr_hunter start_convoy_repeat && ros2 topic echo /vtr/mpc_prediction
+      - cd $VTRDATA/gazebo_convoy && ros2 bag record /robot1/cmd_vel /robot2/cmd_vel /vtr/mpc_prediction /vtr/odometry /vtr_follower/mpc_prediction /vtr_follower/odometry
   - window_name: leader_vtr_navigation_system
     layout: main-horizontal
     shell_command_before:
@@ -52,3 +53,9 @@ windows:
   #     - ros2 run vtr_gui socket_server  --ros-args -r __ns:=/vtr_follower
   #     - ros2 run vtr_gui web_server  --ros-args -r __ns:=/vtr_follower
       # - firefox --new-window "localhost:5200" # the webpage has to wait for everything above
+  - window_name: rviz2
+    layout: main-horizontal
+    shell_command_before:
+      - source ${VTRSRC}/main/install/setup.bash
+    panes:
+      - ros2 run rviz2 rviz2 -d ${VTRSRC}/rviz/ouster.rviz
