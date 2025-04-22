@@ -1,0 +1,54 @@
+## Online Lidar VTR3
+session_name: vtr_simulated_lidar_hunter_convoy
+
+
+start_directory: ${VTRTEMP}
+suppress_history: false
+
+windows:
+  - window_name: command_line_interface
+    layout: main-horizontal
+    shell_command_before:
+      - source ${VTRSRC}/main/install/setup.bash
+      - source ${VTRROOT}/hunter_sim/install/setup.bash
+    panes:
+      - ros2 run vtr_hunter start_convoy_repeat && ros2 topic echo /vtr/mpc_prediction
+  - window_name: leader_vtr_navigation_system
+    layout: main-horizontal
+    shell_command_before:
+      - source ${VTRSRC}/main/install/setup.bash
+    panes:
+      - >
+        ros2 launch vtr_navigation vtr.launch.py
+        base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_leader.yaml
+        start_new_graph:=false
+        use_sim_time:=true
+        data_dir:=${VTRTEMP}/hunter_sim/convoy_test4
+        planner:="unicycle_mpc"
+        model_dir:=${VTRROOT}/models
+
+  - window_name: follower_vtr_navigation_system
+    layout: main-horizontal
+    shell_command_before:
+      - source ${VTRSRC}/main/install/setup.bash
+    panes:
+      - >
+        ros2 launch vtr_navigation vtr.launch.py
+        base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_follower.yaml
+        start_new_graph:=false
+        use_sim_time:=true
+        data_dir:=${VTRTEMP}/hunter_sim/convoy_test4_copy
+        namespace:=vtr_follower
+        planner:="unicycle_mpc_follower"
+        model_dir:=${VTRROOT}/models
+        
+
+  # - window_name: vtr_gui
+  #   layout: main-horizontal
+  #   shell_command_before:
+  #     - source ${VTRSRC}/main/install/setup.bash
+  #   panes:
+  #     - ros2 run vtr_gui socket_client  --ros-args -r __ns:=/vtr_follower
+  #     - ros2 run vtr_gui socket_server  --ros-args -r __ns:=/vtr_follower
+  #     - ros2 run vtr_gui web_server  --ros-args -r __ns:=/vtr_follower
+      # - firefox --new-window "localhost:5200" # the webpage has to wait for everything above
