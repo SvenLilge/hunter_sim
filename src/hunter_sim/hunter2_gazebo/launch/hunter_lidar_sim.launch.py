@@ -30,7 +30,7 @@ def generate_launch_description():
   spawn_z_val = '0.0'
   spawn_yaw_val = '0.00'
 
-  spawn_x_val_2 = str(float(spawn_x_val) - 5.0)
+  spawn_x_val_2 = str(float(spawn_x_val) - 3)
 
   ############ You do not need to change anything below this line #############
  
