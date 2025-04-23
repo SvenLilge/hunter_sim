@@ -123,11 +123,19 @@ def generate_launch_description():
   start_robot_state_publisher_cmd = Node(
     package='robot_state_publisher',
     executable='robot_state_publisher',
-    parameters=[{'robot_description': launch_ros.descriptions.ParameterValue( launch.substitutions.Command([
-      'xacro ',os.path.join(pkg_share,urdf_file_path)]), value_type=str)  }],
-    namespace=LaunchConfiguration('namespace_1')
-    )
- 
+    parameters=[{
+        'robot_description': launch_ros.descriptions.ParameterValue(
+            launch.substitutions.Command([
+                'xacro ', os.path.join(pkg_share, urdf_file_path)
+            ]),
+            value_type=str
+        ),
+        #'frame_prefix': 'robot1/'  # Add namespace as prefix
+    }],
+    namespace=LaunchConfiguration('namespace_1'),
+    output='screen'
+)
+
   # Publish the joint states of the robot
   start_joint_state_publisher_cmd = Node(
     package='joint_state_publisher',
@@ -203,9 +211,11 @@ def generate_launch_description():
                 'xacro ', os.path.join(pkg_share, urdf_file_path)
             ]),
             value_type=str
-        )
+        ),
+        #'frame_prefix': 'robot2/'  # Add namespace as prefix
     }],
-    namespace=LaunchConfiguration('namespace_2')
+    namespace=LaunchConfiguration('namespace_2'),
+    output='screen'
   )
 
 
@@ -217,6 +227,8 @@ def generate_launch_description():
     condition=UnlessCondition(gui),
     parameters=[{'use_sim_time': use_sim_time}],
     namespace=LaunchConfiguration('namespace_2'))
+
+  
 
 
   # Create the launch description and populate
