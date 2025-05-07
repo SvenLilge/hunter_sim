@@ -22,10 +22,10 @@ def generate_launch_description():
   robot_name_in_model = 'hunter2'
   rviz_config_file_path = 'rviz/urdf.rviz'
   urdf_file_path = 'urdf/hunter2_base_gazebo_lidar.xacro'
-  world_file_path = 'world/test.world'
+  world_file_path = 'world/test2.world'
  
   # Pose where we want to spawn the robot
-  spawn_x_val = '0.0'
+  spawn_x_val = '2.5'
   spawn_y_val = '0.0'
   spawn_z_val = '0.0'
   spawn_yaw_val = '0.00'
@@ -130,7 +130,7 @@ def generate_launch_description():
             ]),
             value_type=str
         ),
-        #'frame_prefix': 'robot1/'  # Add namespace as prefix
+       # 'frame_prefix': 'robot1/'  # Add namespace as prefix
     }],
     namespace=LaunchConfiguration('namespace_1'),
     output='screen'
