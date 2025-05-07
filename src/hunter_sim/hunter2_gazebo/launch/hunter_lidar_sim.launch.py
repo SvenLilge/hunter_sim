@@ -21,7 +21,7 @@ def generate_launch_description():
   package_name = 'hunter2_base'
   robot_name_in_model = 'hunter2'
   rviz_config_file_path = 'rviz/urdf.rviz'
-  urdf_file_path = 'urdf/hunter2_base_gazebo_lidar.xacro'
+  urdf_file_path = 'urdf/hunter2_base_gazebo_lidar_2.xacro'
   world_file_path = 'world/test2.world'
  
   # Pose where we want to spawn the robot
@@ -150,6 +150,7 @@ def generate_launch_description():
     package='rviz2',
     executable='rviz2',
     name='rviz2',
+    condition=IfCondition(use_rviz),
     output='screen',
     arguments=['-d', rviz_config_file])
  
@@ -208,7 +209,7 @@ def generate_launch_description():
     parameters=[{
         'robot_description': launch_ros.descriptions.ParameterValue(
             launch.substitutions.Command([
-                'xacro ', os.path.join(pkg_share, urdf_file_path)
+                'xacro ', os.path.join(pkg_share, urdf_file_path_2)
             ]),
             value_type=str
         ),
