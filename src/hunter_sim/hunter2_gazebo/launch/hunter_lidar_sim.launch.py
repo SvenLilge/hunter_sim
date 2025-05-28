@@ -21,7 +21,8 @@ def generate_launch_description():
   package_name = 'hunter2_base'
   robot_name_in_model = 'hunter2'
   rviz_config_file_path = 'rviz/urdf.rviz'
-  urdf_file_path = 'urdf/hunter2_base_gazebo_lidar_2.xacro'
+  urdf_file_path = 'urdf/hunter2_base_gazebo_lidar.xacro'
+  urdf_file_path_2 = 'urdf/hunter2_base_gazebo_lidar_2.xacro'
   world_file_path = 'world/test2.world'
  
   # Pose where we want to spawn the robot
