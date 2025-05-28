@@ -84,7 +84,7 @@
         search_depth: 5
         search_back_depth: 10
         distance_warning: 5.0
-        alpha: 1.0
+        alpha: 0.0
       save_odometry_result: true
       save_localization_result: true
       visualize: true
@@ -357,7 +357,7 @@
         mpc_verbosity: false
         forward_vel: 1.0
         max_lin_vel: 1.5
-        max_ang_vel: 0.5
+        max_ang_vel: 1.0
         max_ang_acc: 5.0
         ang_alpha: 0.811
         lin_alpha: 0.0

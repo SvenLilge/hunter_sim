@@ -37,21 +37,38 @@ def main(file_path):
     print(np.mean(error))
     print(error.shape)
     print(np.sqrt(np.mean(np.power(error - 5, 2))))
-    plt.plot((leader['t']-leader['t'][0])/1e9, error)
-    plt.hlines([3.5], 0, (leader['t'].max()-leader['t'][0])/1e9, colors=['r'], linestyles=['dashed'])
+    t = np.array(leader['t'])  # Convert to NumPy array
+    t = (t - t[0] )/ 1e9;
+    error = np.array(error)    # Ensure error is also a NumPy array if needed
+    
+    # Apply mask where t >= 3 seconds
+    mask = t >= 3
+    t = t[mask]
+    error = error[mask]
+    
+    plt.plot(t, error)
+    plt.hlines([3], 3, t.max(), colors='r', linestyles='dashed')
     plt.grid()
     plt.xlabel("Time (s)")
     plt.ylabel("Distance (m)")
     plt.title("Convoying Distance")
+    
+    x_leader = np.array(leader['x'])
+    y_leader = np.array(leader['y'])
+    z_leader = np.array(leader['z'])
+
+    x_follower = np.array(follower['x'])
+    y_follower = np.array(follower['y'])
+    z_follower = np.array(follower['z'])
 
     ax3 = plt.figure("Path").add_subplot(projection='3d')
-    ax3.plot(leader['x'], leader['y'], leader['z'], label="Leader")
-    ax3.plot(follower['x'], follower['y'], follower['z'], label="Follower")
+    ax3.plot(x_leader, y_leader, z_leader, label="Leader")
+    ax3.plot(x_follower, y_follower, z_follower, label="Follower")
     ax3.legend()
     ax3.set_xlabel("X (m)")
     ax3.set_ylabel("Y (m)")
     ax3.set_zlabel("Z (m)")
-    ax3.set_aspect("equal")
+    ax3.set_aspect("auto")
 
     plt.show()
 
