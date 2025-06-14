@@ -24,7 +24,7 @@ windows:
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_leader.yaml
         start_new_graph:=false
         use_sim_time:=true
-        data_dir:=${VTRTEMP}/hunter_sim/convoy_test4
+        data_dir:=${VTRTEMP}/test_convoy_path
         planner:="unicycle_mpc"
         model_dir:=${VTRROOT}/models
 

@@ -7,7 +7,7 @@ repeat_msg = MissionCommand()
 repeat_msg.type = MissionCommand.ADD_GOAL
 repeat_msg.goal_handle = GoalHandle()
 repeat_msg.goal_handle.type = GoalHandle.REPEAT
-repeat_msg.goal_handle.waypoints = [60]
+repeat_msg.goal_handle.waypoints = [160]
 
 begin_msg = MissionCommand()
 begin_msg.type = MissionCommand.BEGIN_GOALS
