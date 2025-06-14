@@ -85,7 +85,7 @@
         search_depth: 5
         search_back_depth: 10
         distance_warning: 5.0
-        alpha: 1.0
+        alpha: 0.0
       save_odometry_result: true
       save_localization_result: true
       visualize: true
@@ -257,16 +257,18 @@
         profile_curv_weight: 0.0 
         eop_weight: 1.0
         min_vel: 0.5
-      follow_distance: 3.5
+      follow_distance: 3.0
       distance_margin: 100.0
       leader_namespace: /leader
+      waypoint_selection: "euclidean" # leader_vel, euclidean, euclideanv2, arclength
+
       mpc:
         # Controller Params
         extrapolate_robot_pose: false
         mpc_verbosity: false
         forward_vel: 1.0
         max_lin_vel: 1.5
-        max_ang_vel: 0.5
+        max_ang_vel: 1.0
         max_ang_acc: 5.0
         ang_alpha: 0.811
 
