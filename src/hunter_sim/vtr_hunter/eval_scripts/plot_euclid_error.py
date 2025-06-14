@@ -27,6 +27,7 @@ def main(file_path):
     follower = pd.DataFrame(follower_list)
     print(leader.shape)
 
+    TARGET_OFFSET = 3.5
 
     error = []
     for row_l in leader.itertuples(index=False):
@@ -36,9 +37,9 @@ def main(file_path):
     error = np.array(error)
     print(np.mean(error))
     print(error.shape)
-    print(np.sqrt(np.mean(np.power(error - 5, 2))))
+    print(np.sqrt(np.mean(np.power(error - TARGET_OFFSET, 2))))
     plt.plot((leader['t']-leader['t'][0])/1e9, error)
-    plt.hlines([3.5], 0, (leader['t'].max()-leader['t'][0])/1e9, colors=['r'], linestyles=['dashed'])
+    plt.hlines([TARGET_OFFSET], 0, (leader['t'].max()-leader['t'][0])/1e9, colors=['r'], linestyles=['dashed'])
     plt.grid()
     plt.xlabel("Time (s)")
     plt.ylabel("Distance (m)")

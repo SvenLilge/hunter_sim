@@ -259,7 +259,7 @@
         min_vel: 0.5
       follow_distance: 3.5
       distance_margin: 100.0
-      leader_path_topic: /vtr/mpc_prediction
+      leader_namespace: /leader
       mpc:
         # Controller Params
         extrapolate_robot_pose: false
