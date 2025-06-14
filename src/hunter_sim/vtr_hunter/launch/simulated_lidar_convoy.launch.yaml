@@ -12,15 +12,15 @@ windows:
       - source ${VTRSRC}/main/install/setup.bash
       - source ${VTRROOT}/hunter_sim/install/setup.bash
     panes:
-      - ros2 run vtr_hunter start_convoy_repeat && ros2 topic echo /vtr/mpc_prediction
-      - cd $VTRDATA/gazebo_convoy && ros2 bag record /robot1/cmd_vel /robot2/cmd_vel /vtr/mpc_prediction /vtr/odometry /vtr_follower/mpc_prediction /vtr_follower/odometry
+      - ros2 run vtr_hunter start_convoy_repeat
+      - cd $VTRDATA/gazebo_convoy && ros2 bag record /robot1/cmd_vel /robot2/cmd_vel /leader/vtr/mpc_prediction /leader/vtr/odometry /follower/vtr/mpc_prediction /follower/vtr/odometry
   - window_name: leader_vtr_navigation_system
     layout: main-horizontal
     shell_command_before:
       - source ${VTRSRC}/main/install/setup.bash
     panes:
       - >
-        ros2 launch vtr_navigation vtr.launch.py
+        ROBOT_NAME=leader ros2 launch vtr_navigation vtr.launch.py
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_leader.yaml
         start_new_graph:=false
         use_sim_time:=true
@@ -34,12 +34,11 @@ windows:
       - source ${VTRSRC}/main/install/setup.bash
     panes:
       - >
-        ros2 launch vtr_navigation vtr.launch.py
+        ROBOT_NAME=follower ros2 launch vtr_navigation vtr.launch.py
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_follower.yaml
         start_new_graph:=false
         use_sim_time:=true
         data_dir:=${VTRTEMP}/hunter_sim/convoy_test4_copy
-        namespace:=vtr_follower
         planner:="unicycle_mpc_follower"
         model_dir:=${VTRROOT}/models
         

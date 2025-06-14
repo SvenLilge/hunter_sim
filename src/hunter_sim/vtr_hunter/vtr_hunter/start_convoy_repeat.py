@@ -12,22 +12,30 @@ repeat_msg.goal_handle.waypoints = [60]
 begin_msg = MissionCommand()
 begin_msg.type = MissionCommand.BEGIN_GOALS
 
+set_leader_vertex = MissionCommand()
+set_leader_vertex.type = MissionCommand.LOCALIZE
+set_leader_vertex.vertex = 10
+
+set_follower_vertex = MissionCommand()
+set_follower_vertex.type = MissionCommand.LOCALIZE
+set_follower_vertex.vertex = 0
+
 class ConvoyRepeatNode(Node):
     def __init__(self):
         super().__init__('convoy_repeat_node')
 
-        super().__init__('minimal_publisher')
-        self.command_pub_leader = self.create_publisher(MissionCommand, '/vtr/mission_command', 10)
-        self.command_pub_follower = self.create_publisher(MissionCommand, '/vtr_follower/mission_command', 10) 
+        self.command_pub_leader = self.create_publisher(MissionCommand, '/leader/vtr/mission_command', 10)
+        self.command_pub_follower = self.create_publisher(MissionCommand, '/follower/vtr/mission_command', 10) 
         timer_period = 1.0
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
-        self.messages= [repeat_msg, begin_msg]
+        self.leader_messages = [set_leader_vertex, repeat_msg, begin_msg]
+        self.follower_messages = [set_follower_vertex, repeat_msg, begin_msg]
 
     def timer_callback(self):
-        if self.i < len(self.messages):
-            self.command_pub_leader.publish(self.messages[self.i])
-            self.command_pub_follower.publish(self.messages[self.i])
+        if self.i < len(self.leader_messages):
+            self.command_pub_leader.publish(self.leader_messages[self.i])
+            self.command_pub_follower.publish(self.follower_messages[self.i])
             self.get_logger().info('Publishing:')
             self.i += 1
         else:
