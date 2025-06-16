@@ -24,7 +24,7 @@ windows:
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_leader.yaml
         start_new_graph:=false
         use_sim_time:=true
-        data_dir:=${VTRTEMP}/test_convoy_path
+        data_dir:=${VTRTEMP}/sim_mars_dome_convoy
         planner:="unicycle_mpc"
         model_dir:=${VTRROOT}/models
 
@@ -38,7 +38,7 @@ windows:
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_follower.yaml
         start_new_graph:=false
         use_sim_time:=true
-        data_dir:=${VTRTEMP}/test_convoy_path_2
+        data_dir:=${VTRTEMP}/sim_mars_dome_convoy_2
         namespace:=vtr_follower
         planner:="unicycle_mpc_follower"
         model_dir:=${VTRROOT}/models

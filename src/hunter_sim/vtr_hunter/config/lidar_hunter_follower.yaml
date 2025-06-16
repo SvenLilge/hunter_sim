@@ -257,10 +257,10 @@
         profile_curv_weight: 0.0 
         eop_weight: 1.0
         min_vel: 0.5
-      follow_distance: 3.0
-      distance_margin: 0.1
+      follow_distance: 4.0
+      distance_margin: 100.0
       leader_path_topic: /vtr/mpc_prediction
-      waypoint_selection: "euclidean" # leader_vel, euclidean, euclideanv2, arclength
+      waypoint_selection: "arclength" # leader_vel, euclidean, euclideanv2, arclength
       mpc:
         # Controller Params
         extrapolate_robot_pose: false

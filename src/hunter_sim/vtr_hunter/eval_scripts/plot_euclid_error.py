@@ -21,7 +21,7 @@ def main(file_path):
         connections = [x for x in reader.connections if 'odometry' in x.topic ]
         for connection, timestamp, rawdata in reader.messages(connections=connections):
             msg = reader.deserialize(rawdata, connection.msgtype)
-            df_list = follower_list if "follower" in connection.topic else leader_list
+            df_list = follower_list if "mr_green" in connection.topic else leader_list
             df_list.append({"t": msg.header.stamp.sec * 1e9 +  msg.header.stamp.nanosec, "x": msg.pose.pose.position.x, "y": msg.pose.pose.position.y, "z": msg.pose.pose.position.z})
     leader = pd.DataFrame(leader_list)
     follower = pd.DataFrame(follower_list)

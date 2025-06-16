@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'start_convoy_repeat = vtr_hunter.start_convoy_repeat:main'
+            'start_convoy_repeat = vtr_hunter.start_convoy_repeat:main',
+            'start_convoy_repeat_three = vtr_hunter.start_convoy_repeat_three:main'
         ],
     },
 )
