@@ -271,7 +271,7 @@
         max_ang_acc: 5.0
         ang_alpha: 0.811
 
-        vehicle_model: "bicycle"
+        vehicle_model: "unicycle"
 
         # Misc
         command_history_length: 100

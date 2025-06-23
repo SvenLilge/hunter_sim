@@ -257,18 +257,10 @@
         profile_curv_weight: 0.0 
         eop_weight: 1.0
         min_vel: 0.5
-<<<<<<< HEAD
       follow_distance: 4.0
       distance_margin: 100.0
       leader_namespace: /leader
       waypoint_selection: "arclength" # leader_vel, euclidean, euclideanv2, arclength
-=======
-      follow_distance: 3.0
-      distance_margin: 100.0
-      leader_namespace: /leader
-      waypoint_selection: "euclidean" # leader_vel, euclidean, euclideanv2, arclength
-
->>>>>>> c5b8c4052add2da50725a750af34786af2eef308
       mpc:
         # Controller Params
         extrapolate_robot_pose: false
@@ -279,7 +271,7 @@
         max_ang_acc: 5.0
         ang_alpha: 0.811
 
-        vehicle_model: "bicycle"
+        vehicle_model: "unicycle"
 
         # Misc
         command_history_length: 100
