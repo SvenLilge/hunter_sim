@@ -326,7 +326,7 @@
     <axis
       xyz="0 0 -1" />
     <limit effort="300" velocity="100" />
-    <dynamics friction="1.0" damping="1.0"/>
+    <dynamics friction="0.0" damping="0.0"/>
 
   </joint>
   <link
@@ -382,7 +382,10 @@
     <axis
       xyz="0 0 -1" />
     <limit effort="300" velocity="100" />
-    <dynamics friction="1.0" damping="1.0"/>
+    <dynamics friction="0.0" damping="0.0"/>
+=======
+    <limit effort="10" velocity="100" />
+>>>>>>> c5b8c4052add2da50725a750af34786af2eef308
 
   </joint>
   <link
