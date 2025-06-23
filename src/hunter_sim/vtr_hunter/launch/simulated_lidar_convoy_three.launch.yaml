@@ -12,8 +12,8 @@ windows:
       - source ${VTRSRC}/main/install/setup.bash
       - source ${VTRROOT}/hunter_sim/install/setup.bash
     panes:
-      - ros2 run vtr_hunter start_convoy_repeat_three && ros2 topic echo /vtr/mpc_prediction
-      - cd $VTRDATA/gazebo_convoy && ros2 bag record /robot1/cmd_vel /robot2/cmd_vel /robot3/cmd_vel /vtr/mpc_prediction /vtr/odometry /vtr_follower/mpc_prediction /vtr_follower/odometry /vtr_follower_2/mpc_prediction /vtr_follower_2/odometry
+      - ros2 run vtr_hunter start_convoy_repeat_three && ros2 topic echo /leader/vtr/mpc_prediction
+      - cd $VTRDATA/gazebo_convoy && ros2 bag record /robot1/cmd_vel /robot2/cmd_vel /robot3/cmd_vel /leader/vtr/mpc_prediction /leader/vtr/odometry /follower/vtr/mpc_prediction /follower/vtr/odometry /follower_2/vtr/mpc_prediction /follower_2/vtr/odometry
 
   - window_name: leader_vtr_navigation_system
     layout: main-horizontal
@@ -21,7 +21,7 @@ windows:
       - source ${VTRSRC}/main/install/setup.bash
     panes:
       - >
-        ros2 launch vtr_navigation vtr.launch.py
+        ROBOT_NAME=leader ros2 launch vtr_navigation vtr_sim.launch.py
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_leader.yaml
         start_new_graph:=false
         use_sim_time:=true
@@ -35,12 +35,11 @@ windows:
       - source ${VTRSRC}/main/install/setup.bash
     panes:
       - >
-        ros2 launch vtr_navigation vtr.launch.py
+        ROBOT_NAME=follower ros2 launch vtr_navigation vtr_sim.launch.py
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_follower.yaml
         start_new_graph:=false
         use_sim_time:=true
         data_dir:=${VTRTEMP}/sim_mars_dome_convoy_2
-        namespace:=vtr_follower
         planner:="unicycle_mpc_follower"
         model_dir:=${VTRROOT}/models
         
@@ -50,12 +49,11 @@ windows:
       - source ${VTRSRC}/main/install/setup.bash
     panes:
       - >
-        ros2 launch vtr_navigation vtr.launch.py
+        ROBOT_NAME=follower_2 ros2 launch vtr_navigation vtr_sim.launch.py
         base_params:=${VTRROOT}/hunter_sim/src/hunter_sim/vtr_hunter/config/lidar_hunter_follower_2.yaml
         start_new_graph:=false
         use_sim_time:=true
         data_dir:=${VTRTEMP}/sim_mars_dome_convoy_3
-        namespace:=vtr_follower_2
         planner:="unicycle_mpc_follower"
         model_dir:=${VTRROOT}/models
 

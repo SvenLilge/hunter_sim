@@ -17,9 +17,9 @@ class ConvoyRepeatNode(Node):
         super().__init__('convoy_repeat_node')
 
         super().__init__('minimal_publisher')
-        self.command_pub_leader = self.create_publisher(MissionCommand, '/vtr/mission_command', 10)
-        self.command_pub_follower = self.create_publisher(MissionCommand, '/vtr_follower/mission_command', 10)
-        self.command_pub_follower_2 = self.create_publisher(MissionCommand, '/vtr_follower_2/mission_command', 10) 
+        self.command_pub_leader = self.create_publisher(MissionCommand, '/leader/vtr/mission_command', 10)
+        self.command_pub_follower = self.create_publisher(MissionCommand, '/follower/vtr/mission_command', 10)
+        self.command_pub_follower_2 = self.create_publisher(MissionCommand, '/follower_2/vtr/mission_command', 10) 
         timer_period = 1.0
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
