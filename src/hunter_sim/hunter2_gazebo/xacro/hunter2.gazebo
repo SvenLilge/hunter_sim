@@ -112,6 +112,13 @@
 
       <odometry_frame>odom</odometry_frame>
       <robot_base_frame>base_link</robot_base_frame>
+      
+      <use_actuator_msg>true</use_actuator_msg>
+      <actuator_number>0</actuator_number>
+      <wheel_separation>1.0</wheel_separation>
+      <kingpin_width>0.8</kingpin_width>
+      <wheel_base>1.0</wheel_base>
+      <wheel_radius>0.2</wheel_radius>
 
     </plugin>
 
