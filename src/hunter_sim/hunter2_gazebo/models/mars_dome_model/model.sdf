@@ -6,14 +6,14 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>package://hunter2_base/models/mars_dome_model/meshes/model.dae</uri>
+            <uri>package://hunter2_gazebo/models/mars_dome_model/meshes/model.dae</uri>
           </mesh>
         </geometry>
       </visual>
       <collision name="collision">
         <geometry>
           <mesh>
-            <uri>package://hunter2_base/models/mars_dome_model/meshes/model_collision.dae</uri>
+            <uri>package://hunter2_gazebo/models/mars_dome_model/meshes/model_collision.dae</uri>
           </mesh>
         </geometry>
         <surface>

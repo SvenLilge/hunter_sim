@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="hunter2" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Include geometry + gazebo plugins file -->
+  <xacro:include filename="hunter2_gazebo.xacro" />
+
+  <!-- Laser Link -->
+  <link name="laser_frame">
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.04" />
+      </geometry>
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1.0" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.05" length="0.04" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.1" />
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001" />
+    </inertial>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="laser_frame" />
+    <origin xyz="0 0 0.2" rpy="0 0 0" />
+  </joint>
+
+  <!-- Gazebo Harmonic Sensor Configuration -->
+  <gazebo reference="laser_frame">
+    <visual>
+      <material>
+        <ambient>1.0 0.0 0.0 1.0</ambient>
+        <diffuse>1.0 0.0 0.0 1.0</diffuse>
+      </material>
+    </visual>
+
+    <sensor name="laser" type="gpu_lidar">
+      <pose>0 0 0 0 0 0</pose>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <topic>$(arg namespace)/scan</topic>
+      <frame_id>$(arg namespace)/laser_frame</frame_id>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>660</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14</min_angle>
+            <max_angle>3.14</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>21</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.1</min_angle>
+            <max_angle>0.1</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.5</min>
+          <max>100.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </lidar>
+    </sensor>
+  </gazebo>
+</robot>
