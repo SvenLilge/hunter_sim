@@ -2,24 +2,23 @@
 
 ```console
 cd $VTRROOT
-git clone https://github.com/SvenLilge/hunter_sim.git
+git clone https://github.com/utiasasrl/hunter_sim.git
 ```
 
-**Install dependencies:**
+**Build Dockerfile**
+This is based on the latest GPU vtr3 Dockerfile on Dockerhub
+```bash
+docker build -t utiasasrl/vtr3-gazebo:latest .
+```
 
-Launch vtr3 docker as root to install:
-
-```console
-apt-get install ros-humble-gazebo-*
-apt-get install ros-humble-joint-state-publisher ros-humble-joint-state-publisher-gui
-apt-get install ros-humble-ackermann-steering-controller
-apt-get install ros-humble-control-*
-apt-get install ros-humble-rqt-robot-steering 
+**Run Docker Container**
+```bash
+docker run -it --name hunter_sim   --privileged   --network=host   --ipc=host   --gpus=all   -e USER_ID=$(id -u)   -e GROUP_ID=$(id -g)   -e USER_NAME=$(id -un)   -e DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix:rw   -v ${VTRROOT}:${VTRROOT}:rw   -v /dev:/dev -e NVIDIA_DRIVER_CAPABILITIES=all  utiasasrl/vtr3-gazebo:latest
 ```
 
 **Build package:**
 
-In the vtr3 docker run:
+In the docker run:
 
 ```console
 source /opt/ros/humble/setup.bash
@@ -33,10 +32,7 @@ In the vtr3 docker run:
 
 ```console
 cd $VTRROOT/hunter_sim
-source install/setup.bash
-source /usr/share/gazebo-11/setup.bash
 source /opt/ros/humble/setup.bash
-ros2 launch hunter2_gazebo hunter_lidar_sim.launch.py 
+source install/setup.bash
+ros2 launch hunter2_gazebo hunter_gazebo_md_sim.launch.py num_robots:=1
 ```
-
-This should open Gazebo and RVIZ (visualizing the most relevant topics). The simulated robot in Gazebo takes velocity commands from /cmd_vel.
