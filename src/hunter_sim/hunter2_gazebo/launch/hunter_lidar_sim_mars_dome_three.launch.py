@@ -38,7 +38,7 @@ def generate_launch_description():
   ############ You do not need to change anything below this line #############
  
   # Set the path to different files and folders.  
-  pkg_gazebo_ros = FindPackageShare(package='gazebo_ros').find('gazebo_ros')   
+  pkg_gazebo_ros = FindPackageShare(package='ros_gz').find('ros_gz')   
   pkg_share = FindPackageShare(package=package_name).find(package_name)
   default_urdf_model_path = os.path.join(pkg_share, urdf_file_path)
   default_rviz_config_path = os.path.join(pkg_share, rviz_config_file_path)
@@ -177,7 +177,7 @@ def generate_launch_description():
  
   # Launch the robot
   spawn_entity_cmd_1 = Node(
-    package='gazebo_ros',
+    package='ros_gz',
     executable='spawn_entity.py',
     arguments=[
         '-entity', 'robot1',
@@ -195,7 +195,7 @@ def generate_launch_description():
 )
 
   spawn_entity_cmd_2 = Node(
-    package='gazebo_ros',
+    package='ros_gz',
     executable='spawn_entity.py',
     arguments=[
         '-entity', 'robot2',
@@ -239,7 +239,7 @@ def generate_launch_description():
     namespace=LaunchConfiguration('namespace_2'))
     
   spawn_entity_cmd_3 = Node(
-    package='gazebo_ros',
+    package='ros_gz',
     executable='spawn_entity.py',
     arguments=[
         '-entity', 'robot3',

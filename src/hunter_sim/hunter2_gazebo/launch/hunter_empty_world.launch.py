@@ -33,7 +33,7 @@ def generate_launch_description():
   ############ You do not need to change anything below this line #############
  
   # Set the path to different files and folders.  
-  pkg_gazebo_ros = FindPackageShare(package='gazebo_ros').find('gazebo_ros')   
+  pkg_gazebo_ros = FindPackageShare(package='ros_gz_sim').find('ros_gz_sim')   
   pkg_share = FindPackageShare(package=package_name).find(package_name)
   default_urdf_model_path = os.path.join(pkg_share, urdf_file_path)
   default_rviz_config_path = os.path.join(pkg_share, rviz_config_file_path)
@@ -148,18 +148,18 @@ def generate_launch_description():
  
   # Start Gazebo server
   start_gazebo_server_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzserver.launch.py')),
+    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gz_server.launch.py')),
     condition=IfCondition(use_simulator),
     launch_arguments={'world': world}.items())
  
   # Start Gazebo client    
   start_gazebo_client_cmd = IncludeLaunchDescription(
-    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')),
+    PythonLaunchDescriptionSource(os.path.join(pkg_gazebo_ros, 'launch', 'gz_client.launch.py')),
     condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless])))
  
   # Launch the robot
   spawn_entity_cmd = Node(
-    package='gazebo_ros', 
+    package='ros_gz', 
     executable='spawn_entity.py',
     arguments=['-entity', robot_name_in_model, 
                 '-topic', 'robot_description',
@@ -172,7 +172,7 @@ def generate_launch_description():
   controller = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["gazebo_ros_ackermann_drive"],
+        arguments=["ros_gz_ackermann_drive"],
     )
 
 

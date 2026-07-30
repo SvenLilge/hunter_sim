@@ -5,9 +5,9 @@
 
 <robot name="hunter2" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find hunter2_gazebo)/xacro/lidar.xacro" />
+<xacro:include filename="package://hunter2_gazebo/xacro/lidar.xacro" />
 
-<xacro:include filename="$(find hunter2_gazebo)/xacro/hunter2_2.gazebo"/> 
+<xacro:include filename="package://hunter2_gazebo/xacro/hunter2_2.gazebo"/> 
   
   <link
     name="base_link">
@@ -31,7 +31,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find hunter2_base)/meshes/base_link.STL" />
+          filename="package://hunter2_base/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -46,7 +46,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find hunter2_base)/meshes/base_link.STL" />
+          filename="package://hunter2_base/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -128,7 +128,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find hunter2_base)/meshes/front_left_wheel_link.STL" />
+          filename="package://hunter2_base/meshes/front_left_wheel_link.STL" />
       </geometry>
       <material
         name="">
@@ -239,7 +239,7 @@
         rpy="0 3.14 0" />
       <geometry>
         <mesh
-          filename="file://$(find hunter2_base)/meshes/front_left_wheel_link.STL" />
+          filename="package://hunter2_base/meshes/front_left_wheel_link.STL" />
       </geometry>
       <material
         name="">
@@ -295,7 +295,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find hunter2_base)/meshes/left_rear_link.STL" />
+          filename="package://hunter2_base/meshes/left_rear_link.STL" />
       </geometry>
       <material
         name="">
@@ -351,7 +351,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find hunter2_base)/meshes/right_rear_link.STL" />
+          filename="package://hunter2_base/meshes/right_rear_link.STL" />
       </geometry>
       <material
         name="">

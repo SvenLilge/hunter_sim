@@ -42,7 +42,7 @@ def generate_launch_description():
                         'xacro ',os.path.join(pkg_share,urdf_file)]), value_type=str)  }]
             ),
         Node(
-            package='gazebo_ros',
+            package='ros_gz',
             executable='spawn_entity.py',
             arguments=[
                 '-entity', LaunchConfiguration('robot_name'),
