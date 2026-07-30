@@ -18,3 +18,4 @@ RUN mkdir -p /usr/share/glvnd/egl_vendor.d && \
         "library_path" : "libEGL_nvidia.so.0"\n\
     }\n\
 }' > /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+ENV __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json

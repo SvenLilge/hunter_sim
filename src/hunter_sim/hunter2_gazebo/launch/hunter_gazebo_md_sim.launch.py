@@ -63,12 +63,6 @@ def generate_launch_description():
         value=os.path.dirname(hunter_gazebo_pkg_share)
     )
 
-
-    set_nv_offload = SetEnvironmentVariable(name='__NV_PRIME_RENDER_OFFLOAD', value='1')
-    set_nv_vendor = SetEnvironmentVariable(name='__GLX_VENDOR_LIBRARY_NAME', value='nvidia')
-    set_nv_vendor_path = SetEnvironmentVariable(name='__EGL_VENDOR_LIBRARY_FILENAMES', value='/usr/share/glvnd/egl_vendor.d/10_nvidia.json')
-    set_qt_platform = SetEnvironmentVariable(name='QT_QPA_PLATFORM', value='xcb')
-
     # 2. Start Gazebo
     gz_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -84,10 +78,6 @@ def generate_launch_description():
         robot_count,
         add_hunter2_base_path,
         add_hunter2_gazebo_path,
-        set_nv_offload,
-        set_nv_vendor,
-        set_nv_vendor_path,
-        set_qt_platform,
         gz_server,
         spawn_robots
     ])
